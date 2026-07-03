@@ -1,2 +1,6 @@
-# Core runtime dependencies
-# Add your project packages here.
+requests==2.32.4
+beautifulsoup4==4.13.4
+markdownify==1.2.0
+python-slugify==8.0.4
+lxml==6.0.0
+python-dotenv

@@ -1,21 +1,42 @@
-# atlas-index
+# Atlas Index
 
-Project scaffold for a crawler, documentation, embeddings, and app runtime.
+This project is part of a home assignment. The current implementation focuses on collecting knowledge base articles from the OptiSigns Help Center and converting them into clean Markdown files.
 
-## Structure
+## Features
 
-- `crawler/` for crawling logic
-- `docs/` for markdown articles
-- `embeddings/` for generated embedding artifacts
-- `app/` for application code
-- `logs/` for runtime logs
-- `.env.sample` for environment variable examples
-- `Dockerfile` for container builds
-- `requirements.txt` for Python dependencies
-- `main.py` as the entry point
+* Pull articles from the OptiSigns Help Center
+* Convert HTML content to Markdown
+* Preserve headings, links, and code blocks
+* Remove navigation and other non-content elements
+* Save each article as an individual `.md` file
 
-## Getting Started
+## Project Structure
 
-1. Copy `.env.sample` to `.env`.
-2. Install dependencies from `requirements.txt`.
-3. Run `python main.py`.
+```text
+.
+├── crawler/
+│   └── crawl_articles.py
+├── docs/
+├── main.py
+├── requirements.txt
+├── .env.sample
+└── README.md
+```
+
+## Setup
+
+Install dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
+Create a `.env` file from `.env.sample` and configure the required values.
+
+## Run
+
+```bash
+python main.py
+```
+
+The generated Markdown files will be stored in the `docs/` directory.
