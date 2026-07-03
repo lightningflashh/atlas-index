@@ -54,17 +54,21 @@ def html_to_markdown(html):
 def save_article(article):
     title = article["title"]
     body = article["body"]
+    article_url = article.get("html_url", "")
 
     html = clean_html(body)
-
     markdown = html_to_markdown(html)
 
     filename = slugify(title) + ".md"
-
     path = os.path.join(OUTPUT_DIR, filename)
 
     with open(path, "w", encoding="utf-8") as f:
         f.write(f"# {title}\n\n")
+
+        if article_url:
+            f.write(f"Article URL: {article_url}\n\n")
+
+        f.write("---\n\n")
         f.write(markdown)
 
     print("Saved:", filename)

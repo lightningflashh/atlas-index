@@ -1,5 +1,9 @@
 # Disk Encryption
 
+Article URL: https://support.optisigns.com/hc/en-us/articles/40212027797523-Disk-Encryption
+
+---
+
 ### In this article, we’ll walk you through how to set up Disk Encryption on your OptiSigns Players.
 
 - [What You’ll Need](#WhatYouNeed)

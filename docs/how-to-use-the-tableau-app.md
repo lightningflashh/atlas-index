@@ -1,5 +1,9 @@
 # How to Use the Tableau App
 
+Article URL: https://support.optisigns.com/hc/en-us/articles/39250660729747-How-to-Use-the-Tableau-App
+
+---
+
 ### In this article, we’ll show you how to set up and use the Tableau app to display Dashboards on digital signs.
 
 - [What You’ll Need](#WhatYouNeed)

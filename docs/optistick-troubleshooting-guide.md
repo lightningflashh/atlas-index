@@ -1,5 +1,9 @@
 # OptiStick Troubleshooting Guide
 
+Article URL: https://support.optisigns.com/hc/en-us/articles/40147900639891-OptiStick-Troubleshooting-Guide
+
+---
+
 ### In this article, we will troubleshoot the most common issues people encounter using our OptiStick Player.
 
 - [Identify Your Device](#Identify)

@@ -1,5 +1,9 @@
 # How to Use the Google Ads Dashboard App
 
+Article URL: https://support.optisigns.com/hc/en-us/articles/48751096814995-How-to-Use-the-Google-Ads-Dashboard-App
+
+---
+
 ### In this article, we'll show how to display Google Ads information on your digital signs with OptiSigns.
 
 - [What You'll Need](#WhatYouNeed)

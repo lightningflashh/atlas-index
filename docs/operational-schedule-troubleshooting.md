@@ -1,5 +1,9 @@
 # Operational Schedule Troubleshooting
 
+Article URL: https://support.optisigns.com/hc/en-us/articles/48241081473043-Operational-Schedule-Troubleshooting
+
+---
+
 ### In this article, we will troubleshoot common issues related to the Operational Schedule feature in OptiSigns.
 
 - [Introduction to Operational Scheduling](#Introduction)

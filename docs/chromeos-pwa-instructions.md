@@ -1,5 +1,9 @@
 # ChromeOS PWA Instructions
 
+Article URL: https://support.optisigns.com/hc/en-us/articles/49039295567891-ChromeOS-PWA-Instructions
+
+---
+
 ### In this article, we will show how to set up OptiSigns on ChromeOS devices. This can be used for mass provisioning across numerous Chrome boxes without the use of any Chrome apps.
 
 - [What You'll Need](#WhatYouNeed)

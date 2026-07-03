@@ -1,5 +1,9 @@
 # OptiSigns Pro/ProMax Player Troubleshooting Guide
 
+Article URL: https://support.optisigns.com/hc/en-us/articles/40736654972563-OptiSigns-Pro-ProMax-Player-Troubleshooting-Guide
+
+---
+
 ### In this article, we troubleshoot the most common issues our customers face when using an OptiSigns Pro or ProMax Player.
 
 - [Best Practices](#BestPractices)
