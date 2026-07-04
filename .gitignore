@@ -21,3 +21,5 @@ embeddings/
 .DS_Store
 Thumbs.db
 .vscode/
+
+vector_db/
