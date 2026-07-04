@@ -25,10 +25,12 @@ def split_text(text, chunk_size=CHUNK_SIZE, overlap=CHUNK_OVERLAP):
     return chunks
 
 
-def load_articles():
+def load_articles(files):
     articles = []
 
-    for file in DOCS_DIR.glob("*.md"):
+    for file in files:
+
+        file = Path(file)
 
         content = file.read_text(encoding="utf-8")
 
@@ -53,10 +55,10 @@ def load_articles():
     return articles
 
 
-def build_chunks():
+def build_chunks(files):
     chunk_list = []
 
-    articles = load_articles()
+    articles = load_articles(files)
 
     for article in articles:
 

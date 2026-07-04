@@ -4,6 +4,12 @@ from bs4 import BeautifulSoup
 from markdownify import markdownify as md
 from slugify import slugify
 
+from crawler.hash_utils import (
+    compute_hash,
+    load_hashes,
+    save_hashes,
+)
+
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -72,26 +78,78 @@ def save_article(article):
         f.write(markdown)
 
     print("Saved:", filename)
+    return path
 
 
 def crawl():
     url = API_URL
     total = 0
 
+    hashes = load_hashes()
+
+    added = 0
+    updated = 0
+    skipped = 0
+
+    changed_files = []
+
     while url:
 
         response = requests.get(url)
-
         response.raise_for_status()
 
         data = response.json()
 
         for article in data["articles"]:
-            save_article(article)
             total += 1
 
-            if total >= MAX_ARTICLES:
-                print("Done.")
-                return
+            article_id = str(article["id"])
 
+            new_hash = compute_hash(article["body"])
+
+            old_hash = hashes.get(article_id)
+
+            if old_hash is None:
+
+                filename = save_article(article)
+
+                hashes[article_id] = new_hash
+
+                added += 1
+
+                changed_files.append(filename)
+
+            elif old_hash != new_hash:
+
+                filename = save_article(article)
+
+                hashes[article_id] = new_hash
+
+                updated += 1
+
+                changed_files.append(filename)
+
+            else:
+
+                skipped += 1
+            
+            if total >= MAX_ARTICLES:
+                url = None
+                break
+        
+        if url is None:
+            break
         url = data["next_page"]
+
+    save_hashes(hashes)
+
+    print(f"Added   : {added}")
+    print(f"Updated : {updated}")
+    print(f"Skipped : {skipped}")
+
+    return {
+        "changed_files": changed_files,
+        "added": added,
+        "updated": updated,
+        "skipped": skipped,
+    }
