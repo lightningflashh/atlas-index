@@ -59,6 +59,21 @@ Atlas Index collects OptiSigns Help Center articles, converts them into clean Ma
 * `Dockerfile` defines how to build the app inside a container.
 * `README.md` explains the project layout, setup, flow, and test case.
 
+## Chunking Strategy
+
+The crawler converts each OptiSigns Help Center article into a Markdown file. During indexing, each document is split into fixed-size text chunks before generating embeddings.
+
+- **Chunk size:** 800 characters
+- **Chunk overlap:** 150 characters
+
+This approach was chosen to balance retrieval quality and efficiency:
+
+- Each chunk is large enough to preserve the context of a section or several related steps.
+- A 150-character overlap helps maintain continuity between adjacent chunks and reduces the chance of losing important information at chunk boundaries.
+- Smaller chunks generally improve retrieval precision, while the overlap ensures that content spanning two chunks can still be retrieved correctly.
+
+This strategy is simple, lightweight, and works well for the structured documentation used in the OptiSigns Help Center.
+
 ## Flow Test Case
 
 ### Test Case: Crawl Article To Search Result Flow
