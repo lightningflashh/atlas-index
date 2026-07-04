@@ -2,15 +2,6 @@
 
 Atlas Index collects OptiSigns Help Center articles, converts them into clean Markdown files, and prepares them for semantic search with a small RAG assistant.
 
-## What the project does
-
-* Crawls knowledge base articles from the OptiSigns Help Center API
-* Cleans HTML by removing navigation, footer, sidebar, and other non-content elements
-* Converts article content into Markdown
-* Saves each article as its own `.md` file
-* Splits the generated docs into chunks for embedding and search
-* Uses ChromaDB and Gemini embeddings to answer questions from the local article set
-
 ## Project Structure
 
 ```text
@@ -36,28 +27,42 @@ Atlas Index collects OptiSigns Help Center articles, converts them into clean Ma
 ├── README.md             # project overview, file meanings, and usage instructions
 └── main.py               # entry point that starts the crawl process
 ```
+## Flow
 
-## File meanings
-
-* `main.py` is the entry point. It imports the crawler flow and runs `crawl()` when executed.
-* `crawler/crawl_articles.py` reads `API_URL`, fetches paginated article data, cleans HTML, converts it to Markdown, and writes each article into `docs/`.
-* `docs/` stores the generated Markdown articles that later feed the chunking and embedding pipeline.
-* `rag/chunk.py` reads every Markdown file in `docs/`, splits the text into chunks, and attaches article metadata.
-* `rag/ingest.py` sends each chunk to Gemini embeddings and saves the vectors into the local ChromaDB database in `vector_db/`.
-* `rag/search.py` embeds a user query and searches the Chroma collection for relevant chunks.
-* `assistant/chat.py` wraps search in a simple chat loop and asks Gemini to answer using only the retrieved context.
-* `rag/list_models.py` prints available Gemini model names for quick environment checks.
-* `rag/test_embedding.py` is a lightweight smoke test that verifies Gemini embedding access and prints the vector length.
-* `vector_db/` stores the persistent ChromaDB database created during ingestion.
-* `app/` is currently reserved for future application-level code.
-* `assistant/` contains the local support assistant for the indexed docs.
-* `crawler/` contains the code that collects and exports article content.
-* `logs/` is reserved for runtime logs if you add logging later.
-* `.env.sample` documents the environment variables the scripts expect.
-* `.gitignore` keeps generated artifacts, local environment files, caches, and logs out of git.
-* `requirements.txt` lists the Python packages needed for crawling, chunking, embedding, and chat.
-* `Dockerfile` defines how to build the app inside a container.
-* `README.md` explains the project layout, setup, flow, and test case.
+                OptiSigns Help Center API
+                         │
+                         ▼
+                    Crawl Articles
+                         │
+                         ▼
+              (Detect New / Updated Articles)
+                         │
+                         ▼
+              Convert HTML → Markdown (.md)
+                         │
+                         ▼
+                  Split into Chunks
+                         │
+                         ▼
+             Generate Gemini Embeddings
+                         │
+                         ▼
+               Store in ChromaDB (vector_db)
+                         │
+                         ▼
+                   User Question
+                         │
+                         ▼
+                  Semantic Search
+                         │
+                         ▼
+              Retrieve Relevant Chunks
+                         │
+                         ▼
+              Gemini Generates Answer
+                         │
+                         ▼
+                  Response + Article URLs
 
 ## Chunking Strategy
 
@@ -108,18 +113,6 @@ This strategy is simple, lightweight, and works well for the structured document
 How do I add a YouTube video in OptiSigns?
 ```
 
-## Environment Variables
-
-Create a `.env` file from `.env.sample` and set the values for your environment.
-
-Typical variables used by the code are:
-
-* `OPTISIGNS_BASE_URL` - base website URL for the source system
-* `API_URL` - article API endpoint used by the crawler
-* `OUTPUT_DIR` - directory where markdown files are written
-* `MAX_ARTICLES` - maximum number of articles to crawl
-* `GEMINI_API_KEY` - API key used by the embedding and chat scripts
-
 ## Setup
 
 Install dependencies:
@@ -150,7 +143,48 @@ Then you can search the indexed content or start the assistant:
 python -m rag.search
 python -m assistant.chat
 ```
+## Run with Docker
 
-## Notes
+Build:
 
-The repository currently uses `docs/` for generated article files and `vector_db/` for the persisted embedding store. If you also create `embeddings/` locally for experimental exports, treat it as generated output. `logs/` is also safe to use for runtime output.
+```bash
+docker build -t atlas-index .
+```
+
+Run:
+
+```bash
+docker run --rm --env-file .env atlas-index
+```
+
+## Scheduled Job
+
+The project is deployed on Railway.
+
+Schedule:
+
+```text
+0 0 * * *
+```
+
+The scheduled job:
+
+- Crawls the OptiSigns Help Center
+- Detects new or updated articles using content hashes
+- Converts changed articles to Markdown
+- Uploads only changed documents to the vector database
+- Logs the numbers of added, updated and skipped articles
+
+Latest execution log: logs\logs.1783131605478.json
+
+## Assistant Demo
+
+Example question:
+
+```text
+How to use the Google ads dashboard app?
+```
+
+Screenshot:
+
+![Assistant Demo](screenshots/assistant-answer.jpg)
